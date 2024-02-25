@@ -1,0 +1,34 @@
+[
+    {
+        "username":"putrevulakshmi",
+        "email":"putrevulakshmi.p@gmail.com",
+        "full Name":"PUTREVU LAKSHMI PHANI",
+        "contact":"9253546485",
+        "profilePic":"FrontendDev/UserDataUI/src/assets/profile/phani.jpg",
+        "gender":"male"
+    },
+    {
+        "username":"johnchodipilli",
+        "email":"johnchodipilli@gmail.com",
+        "full Name":"JOHN CHODIPILLI",
+        "contact":"9254648355",
+        "profilePic":"FrontendDev/UserDataUI/src/assets/profile/john.jpg",
+        "gender":"male"
+    },
+    {
+        "username":"chandrashekar",
+        "email":"chandrashekar.l@gmail.com",
+        "full Name":"LANKE CHANDRA SHEKAR",
+        "contact":"9248553546",
+        "profilePic":"FrontendDev/UserDataUI/src/assets/profile/shekar.jpg",
+        "gender":"male"
+    },
+    {
+        "username":"potturisrinivas",
+        "email":"potturisrinivas@gmail.com",
+        "full Name":"POTTURI SRINIVAS",
+        "contact":"9648525354",
+        "profilePic":"FrontendDev/UserDataUI/src/assets/profile/srinivas.jpg",
+        "gender":"male"
+    }
+]
