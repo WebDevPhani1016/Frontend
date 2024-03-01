@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .button {
+            width: 12vw;
+            align-items: center;
+            appearance: none;
+            background-color: #FCFCFD;
+            border-radius: 4px;
+            border-width: 0;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #36395A;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: "JetBrains Mono", monospace;
+            height: 48px;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            /* padding-left: 16px; */
+            /* padding-right: 16px; */
+            position: absolute;
+            top: 20em;
+            left: 37em;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow .15s, transform .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+            font-size: 18px;
+        }
+
+        .button:focus {
+            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        }
+
+        .button:hover {
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            box-shadow: #D6D6E7 0 3px 7px inset;
+            transform: translateY(2px);
+        }
+
+        .cardContainer {
+            /* width: 66vw; */
+            width: 72%;
+            height: 90vh;
+            background: linear-gradient(45deg, blue, red);
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 1em;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .card {
+            border-radius:10px;
+            width: 12%;
+            margin: 1em;
+            height: 26vh;
+            position: relative;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .flip-card-front img {
+            border: 2px solid white;
+            border-radius: 10px;
+            /* Adjust the radius as needed */
+            padding: 5px;
+            /* Add padding if necessary */
+            box-sizing: border-box;
+            /* Ensure padding is included in the size */
+            position: absolute;
+            left: -0.2em;
+            /* top: 0em; */
+            height: 26vh;
+            width: 9vw;
+        }
+
+        /* img {
+            position: absolute;
+            left: -0.2em;
+            /* top: 0em; 
+            height: 26vh;
+            width: 9vw;
+        } */
+
+        .card:hover {
+            transform: perspective(1000px) rotateY(10deg);
+        }
+
+        .card .flip-card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .card .flip-card-inner.flip {
+            transform: rotateY(180deg);
+        }
+
+        .card .flip-card-inner.flipBack {
+            transform: rotateY(50deg) rotateX(20deg);
+        }
+
+        .card .flip-card-inner .flip-card-front,
+        .card .flip-card-inner .flip-card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
+
+        .card .flip-card-inner .flip-card-front {
+            background: linear-gradient(to right,
+                    #434343,
+                    #000000);
+            box-shadow: 10px 10px 5px;
+        }
+
+        .card .flip-card-inner .flip-card-back {
+            background: linear-gradient(45deg, blue, red);
+            box-shadow: 10px 10px 5px;
+            transform: rotateY(180deg);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="button" role="button">Play</div>
+    <audio src="./clickCard.mp3" id="clickCard"></audio>
+    <audio src="./flipCard.mp3" id="flipCard"></audio>
+    <div class="cardContainer" style="display: none;">
+        <div class="card" id="card1" name="IBM">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">IBM</div>
+            </div>
+        </div>
+        <div class="card" id="card2" name="Capgemini">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Capgemini</div>
+            </div>
+        </div>
+        <div class="card" id="card3" name="Infosys">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Infosys</div>
+            </div>
+        </div>
+        <div class="card" id="card4" name="Capgemini">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Capgemini</div>
+            </div>
+        </div>
+        <div class="card" id="card5" name="Infosys">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Infosys</div>
+            </div>
+        </div>
+        <div class="card" id="card6" name="TCS">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">TCS</div>
+            </div>
+        </div>
+        <div class="card" id="card7" name="Wipro">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Wipro</div>
+            </div>
+        </div>
+        <div class="card" id="card8" name="IBM">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">IBM</div>
+            </div>
+        </div>
+        <div class="card" id="card9" name="TCS">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">TCS</div>
+            </div>
+        </div>
+        <div class="card" id="card10" name="IBM">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">IBM</div>
+            </div>
+        </div>
+        <div class="card" id="card11" name="Capgemini">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Capgemini</div>
+            </div>
+        </div>
+        <div class="card" id="card12" name="Infosys">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Infosys</div>
+            </div>
+        </div>
+        <div class="card" id="card13" name="Capgemini">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Capgemini</div>
+            </div>
+        </div>
+        <div class="card" id="card14" name="Infosys">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Infosys</div>
+            </div>
+        </div>
+        <div class="card" id="card15" name="TCS">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">TCS</div>
+            </div>
+        </div>
+        <div class="card" id="card16" name="Wipro">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">Wipro</div>
+            </div>
+        </div>
+        <div class="card" id="card17" name="IBM">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">IBM</div>
+            </div>
+        </div>
+        <div class="card" id="card18" name="TCS">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"><img src="./card-front.svg"></div>
+                <div class="flip-card-back">TCS</div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            document.getElementsByClassName('button')[0].addEventListener('click', () => {
+                document.getElementsByClassName('button')[0].style.display = 'none';
+                document.getElementsByClassName('cardContainer')[0].style.display = 'flex';
+            })
+            let hoveredCards = {}; // Dictionary to track hovered cards
+            let len = 0; // Count of hovered cards
+            let moves = 0;
+            // console.log(moves);
+            if (len < 2) {
+                $('.card').click(function () {
+                    $('.flip-card-inner').removeClass('flipBack');
+                    // $(this).find('.flip-card-inner').addClass('flipBack');
+                    document.getElementById('clickCard').play();
+                    moves++;
+                    console.log(moves);
+                    if (moves < 30) {
+                        let cardID = $(this).attr('id');
+                        let cardName = $(this).attr('name');
+                        // Add the card to the dictionary
+                        len = Object.keys(hoveredCards).length;
+                        console.log(len);
+                        if (len < 2) {
+                            hoveredCards[cardID] = cardName;
+                        }
+
+                        // Add flip effect
+                        $(this).find('.flip-card-inner').addClass('flip');
+
+                        console.log(hoveredCards);
+                        // Check if count is greater than or equal to 2
+                        if (len === 2) {
+                            let cardIDs = Object.keys(hoveredCards);
+                            let cardNames = Object.values(hoveredCards);
+
+                            // Check if the two cards have the same name and different IDs
+                            if (cardNames[0] === cardNames[1] && cardIDs[0] !== cardIDs[1]) {
+                                // Remove the cards
+                                $('#' + cardIDs[0]).remove();
+                                $('#' + cardIDs[1]).remove();
+                            }
+                        }
+                    }
+                    else {
+                        alert('game over, kindly restart');
+                        document.getElementsByClassName('button')[0].style.display = 'block';
+                        document.getElementsByClassName('cardContainer')[0].style.display = 'none';
+                    }
+                });
+                $('.card').mouseleave(function () {
+                    // console.log($('.flip-card-inner').find('flip'));
+                    // if(len==2){
+                    document.getElementById('flipCard').play();
+                    // }
+                    len = Object.keys(hoveredCards).length;
+                    // Check if count is greater than or equal to 2
+                    if (len == 2) {
+                        // Clear the dictionary and reset count when mouse leaves a card
+                        // Remove flip effect
+                        let cardIDs = Object.keys(hoveredCards);
+                        let cardNames = Object.values(hoveredCards);
+
+                        if (cardNames[0] === cardNames[1] && cardIDs[0] !== cardIDs[1]) {
+                            // Remove the cards
+                            $('#' + cardIDs[0]).remove();
+                            $('#' + cardIDs[1]).remove();
+                        }
+                        console.log(hoveredCards);
+                        $('.flip-card-inner').removeClass('flip');
+                        hoveredCards = {};
+                        // count = 0;
+                        console.log(hoveredCards);
+                    }
+                    $('.flip-card-inner').removeClass('flipBack');
+                });
+                $('.card').mouseenter(function () {
+                    if ($(this).find('.flip-card-inner').find('.flip').prevObject[0].classList.length < 2) {
+                        $(this).find('.flip-card-inner').addClass('flipBack');
+                        document.getElementById('flipCard').play();
+                    }
+                })
+            } else {
+                $('.flip-card-inner').removeClass('flip');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
